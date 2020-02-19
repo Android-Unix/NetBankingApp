@@ -1,6 +1,6 @@
 import re
 from rest_framework import serializers
-from NetBanking.models import Users , Account
+from NetBanking.models import Users , Account , Transations
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
@@ -97,3 +97,25 @@ class AccountSerializer(serializers.ModelSerializer) :
                     raise serializers.ValidationError("Pin length must be minimum 4 digits")
 
             return pin
+
+    def create(self, validated_data):
+        return Account.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+
+        instance.user = validated_data.get('user', instance.user)
+        instance.account_no = validated_data.get('account_no', instance.account_no)
+        instance.pin = validated_data.get('pin', instance.pin)
+        instance.balance = validated_data.get('balance', instance.balance)
+        instance.save()
+        return instance
+
+class TransationsSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Transations
+        fields = [
+            'senders' ,
+            'receivers' ,
+            'moneysent' ,
+
+        ]

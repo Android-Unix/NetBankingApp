@@ -8,7 +8,12 @@ from NetBanking.Service.service import (
     getUserDetails ,
     delete_users ,
     listAccount ,
-    createAccount
+    createAccount ,
+    listTransactions ,
+    accountDetails ,
+    deleteAccount ,
+    withdraw ,
+    deposit
 )
 from NetBanking.models import Users
 from NetBanking.serialize import UserSerializer
@@ -43,3 +48,22 @@ class AccountViewSet(viewsets.ViewSet) :
 
     def create_account(self , request ,pk) :
         return createAccount(pk , request.data)
+
+    def account_details(self , request , pk , account_no) :
+        return Response(accountDetails(pk , account_no).data)
+
+    def delete_account(self , request , pk , account_no) :
+        return Response(str(deleteAccount(pk , account_no)) + " Deleted Successfully")
+
+    def withdrawMoney(self , request , pk , account_no) :
+        money=int(request.data['money'])
+        return withdraw(pk , account_no , money)
+
+    def depositMoney(self , request , pk , account_no) :
+        money=int(request.data['money'])
+        return deposit(pk , account_no , money)
+
+class TransationsViewSet(viewsets.ViewSet) :
+
+    def list_transactions(self , request) :
+        return Response(listTransactions().data)

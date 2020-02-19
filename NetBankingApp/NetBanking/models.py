@@ -64,26 +64,14 @@ class Account(models.Model) :
     balance = models.DecimalField(decimal_places=2 , max_digits=6)
 
     def __str__(self) :
-          return str(self.account_no + " balance : " + self.balance)
+          return str(self.account_no) + " balance : " + str(self.balance)
 
 class Transations(models.Model) :
-    sender = models.ForeignKey(Users , on_delete = models.CASCADE , related_name = '+')
-    senders_account = models.ForeignKey(Account , on_delete = models.CASCADE , related_name = '+')
-    receiver = models.ForeignKey(Users , on_delete = models.CASCADE , related_name = '+')
-    receivers_account = models.ForeignKey(Account , on_delete = models.CASCADE , related_name = '+')
-    money_sent = models.DecimalField(default = 2000 , decimal_places = 5 , max_digits = 6)
+    senders = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'senderacc')
+    receivers = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'receiveracc')
+    moneysent = models.DecimalField(default = 2000 , decimal_places = 2 , max_digits = 12)
     reason = models.TextField(blank = True , null = True)
 
 
     def __str__(self) :
-        return str(
-                    Users.objects.get(id = sender).username +
-                    " Using Account " +
-                    Account.objects.get(id = senders_account).account_no +
-                    " sent " +
-                    money_sent +
-                    " to " +
-                    Users.objects.get(id = receiver).username +
-                    "'s account " +
-                    Account.objects.get(id = receivers_account).account_no
-                )
+        return   str(self.senders.account_no) +  " sent " + str(self.moneysent) + " to " + str(self.receivers.account_no)
