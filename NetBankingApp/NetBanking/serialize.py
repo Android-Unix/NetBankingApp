@@ -1,6 +1,6 @@
 import re
 from rest_framework import serializers
-from NetBanking.models import Users , Account , Transations
+from NetBanking.models import Users , Account , Transactions
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
@@ -77,7 +77,17 @@ class UserSerializer(serializers.ModelSerializer) :
 
         return password
 
+class TransationsSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Transactions
+        fields = [
+                'senders' ,
+                'receivers' ,
+                'moneysent' ,
+                ]
+
 class AccountSerializer(serializers.ModelSerializer) :
+
     class Meta:
         model = Account
         fields = [
@@ -88,15 +98,15 @@ class AccountSerializer(serializers.ModelSerializer) :
         ]
 
 
-        def validate_pin(self , pin) :
-            if pin == "":
-                raise serializers.ValidationError("Enter pin (Pin must only contain numbers) ")
+    def validate_pin(self , pin) :
+        if pin == "":
+            raise serializers.ValidationError("Enter pin (Pin must only contain numbers) ")
 
-            else :
-                if (len(pin) < 4):
-                    raise serializers.ValidationError("Pin length must be minimum 4 digits")
+        else :
+            if (len(pin) < 4):
+                raise serializers.ValidationError("Pin length must be minimum 4 digits")
 
-            return pin
+        return pin
 
     def create(self, validated_data):
         return Account.objects.create(**validated_data)
@@ -109,13 +119,3 @@ class AccountSerializer(serializers.ModelSerializer) :
         instance.balance = validated_data.get('balance', instance.balance)
         instance.save()
         return instance
-
-class TransationsSerializer(serializers.ModelSerializer) :
-    class Meta:
-        model = Transations
-        fields = [
-            'senders' ,
-            'receivers' ,
-            'moneysent' ,
-
-        ]

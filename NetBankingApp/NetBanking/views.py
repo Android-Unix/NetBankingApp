@@ -12,8 +12,8 @@ from NetBanking.Service.service import (
     listTransactions ,
     accountDetails ,
     deleteAccount ,
-    withdraw ,
-    deposit
+    action ,
+    transfer ,
 )
 from NetBanking.models import Users
 from NetBanking.serialize import UserSerializer
@@ -55,15 +55,26 @@ class AccountViewSet(viewsets.ViewSet) :
     def delete_account(self , request , pk , account_no) :
         return Response(str(deleteAccount(pk , account_no)) + " Deleted Successfully")
 
-    def withdrawMoney(self , request , pk , account_no) :
-        money=int(request.data['money'])
-        return withdraw(pk , account_no , money)
+    def bankAction(self , request , pk , account_no) :
+        state = str(request.data['state'])
+        money = int(request.data['money'])
 
-    def depositMoney(self , request , pk , account_no) :
-        money=int(request.data['money'])
-        return deposit(pk , account_no , money)
+        if state == 'w' or state == 'd' :
+            return action(pk , account_no , money , state)
+        else :
+            return Response("Invalid action ..")
 
 class TransationsViewSet(viewsets.ViewSet) :
 
     def list_transactions(self , request) :
-        return Response(listTransactions().data)
+        return listTransactions()
+
+    def transferMoney(self , request , pk , account_no) :
+        money=int(request.data['money'])
+        receivers_account_no = int(request.data['receivers_account_no'])
+
+        if not account_no == receivers_account_no :
+            return transfer(pk , account_no , money , receivers_account_no)
+
+        else :
+            return Response(" Cannot tranfer money to same account as senders..!")

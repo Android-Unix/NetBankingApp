@@ -61,12 +61,12 @@ class Account(models.Model) :
     #minimum balance is 2000
     #maximum balance allowed is 999999
 
-    balance = models.DecimalField(decimal_places=2 , max_digits=6)
+    balance = models.DecimalField(decimal_places=2 , max_digits=15)
 
     def __str__(self) :
           return str(self.account_no) + " balance : " + str(self.balance)
 
-class Transations(models.Model) :
+class Transactions(models.Model) :
     senders = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'senderacc')
     receivers = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'receiveracc')
     moneysent = models.DecimalField(default = 2000 , decimal_places = 2 , max_digits = 12)
