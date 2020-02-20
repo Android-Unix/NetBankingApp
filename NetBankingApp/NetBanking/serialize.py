@@ -3,6 +3,7 @@ from rest_framework import serializers
 from NetBanking.models import Users , Account , Transactions
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer) :
@@ -77,14 +78,6 @@ class UserSerializer(serializers.ModelSerializer) :
 
         return password
 
-class TransationsSerializer(serializers.ModelSerializer) :
-    class Meta:
-        model = Transactions
-        fields = [
-                'senders' ,
-                'receivers' ,
-                'moneysent' ,
-                ]
 
 class AccountSerializer(serializers.ModelSerializer) :
 
@@ -119,3 +112,14 @@ class AccountSerializer(serializers.ModelSerializer) :
         instance.balance = validated_data.get('balance', instance.balance)
         instance.save()
         return instance
+
+
+class TransationsSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = Transactions
+        fields = [
+                'senders' ,
+                'receivers' ,
+                'moneysent' ,
+                ]
+        depth = 1

@@ -110,7 +110,7 @@ def transfer(pk , sender_account_no , money , receivers_account_no) :
                     receiveraccount.balance += money
                     receiveraccount.save()
 
-                    tobj = Transactions.objects.create(senders = senderaccount , receivers = receiveraccount , moneysent = money , senderacc = senderaccount , receiveracc = receiveraccount)
+                    tobj = Transactions.objects.create(senders = senderaccount , receivers = receiveraccount , moneysent = money)
                     Response(TransationsSerializer(tobj , many = True))
                     return Response(" Money sent successfully ")
         else :
