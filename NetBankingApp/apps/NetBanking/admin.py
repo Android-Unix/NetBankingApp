@@ -1,5 +1,5 @@
 from django.contrib import admin
-from NetBanking.models import Users , Account , Transactions
+from apps.NetBanking.models import Users , Account , Transactions
 
 # Register your models here.
 admin.site.register(Users)

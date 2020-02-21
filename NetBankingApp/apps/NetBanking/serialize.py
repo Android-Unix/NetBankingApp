@@ -1,6 +1,6 @@
 import re
 from rest_framework import serializers
-from NetBanking.models import Users , Account , Transactions
+from apps.NetBanking.models import Users , Account , Transactions
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
@@ -96,7 +96,7 @@ class AccountSerializer(serializers.ModelSerializer) :
             raise serializers.ValidationError("Enter pin (Pin must only contain numbers) ")
 
         else :
-            if (len(pin) < 4):
+            if int(len(str(pin))) <= 4:
                 raise serializers.ValidationError("Pin length must be minimum 4 digits")
 
         return pin

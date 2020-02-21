@@ -18,6 +18,6 @@ from django.urls import path , include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('' , include('NetBanking.urls')) ,
-    
+    path('' , include('apps.NetBanking.urls')) ,
+
 ]
