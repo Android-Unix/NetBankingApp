@@ -51,7 +51,8 @@ class UserSerializer(serializers.ModelSerializer) :
 
     def validate_DOB(self, dob) :
         today = dob.today()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        diff = today - dob
+        age = diff.days / 365
         if (age < 18):
             raise serializers.ValidationError("You are no eligible to have a bank account..so cannot create user account ")
         return dob
