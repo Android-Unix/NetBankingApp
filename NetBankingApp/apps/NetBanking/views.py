@@ -9,7 +9,7 @@ from apps.NetBanking.Service.service import (
 )
 
 from apps.NetBanking.models import Users
-from apps.NetBanking.serialize import UserSerializer
+from apps.NetBanking.serializer import UserSerializer
 # Create your views here.
 
 def homePage(request):
