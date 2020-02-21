@@ -1,13 +1,9 @@
 version: '3'
 
-volumes:
-  django-logs:
-    driver: local
-
 services:
 
   netbankingapp:
-    build: ~/Djangoprojects/NetBankingApp/.
+    build: ./NetBankingApp/.
 
     volumes:
       - ~/Djangoprojects/NetBankingApp:/home/NetBankingApp/
