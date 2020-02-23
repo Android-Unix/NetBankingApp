@@ -11,12 +11,12 @@ class UserHelperService :
         if serialize.is_valid() :
             serialize.save()
             return Response(serialize.data)
-        else :
+        else:
             return Response(serialize.errors)
 
     def listUsers():
         queryset = Users.objects.all()
-        return Response(UserSerializer(queryset , many = True).data)
+        return Response(UserSerializer(queryset, many=True).data)
 
     def getUserDetails(pk) :
         user = Users.objects.get(pk=pk)
@@ -72,14 +72,6 @@ class TransactionHelperService :
         return Response({ "transactionData" : serializedTransactiondata.data})
 
 
-    def action(pk , account_no , money , state) :
-        if state == 'w' :
-            return withdraw(pk , account_no , money)
-
-        if state == 'd' :
-            return deposit(pk , account_no , money)
-
-
     def withdraw(pk , account_no , money) :
         account = Users.objects.get(pk=pk).accounts.get(account_no=account_no)
         if float(money) > account.balance:
@@ -88,7 +80,7 @@ class TransactionHelperService :
             return Response(" Cannot withdraw money...Account balance less than mininum balance")
         elif account.balance - money <= 2000 :
             return Response(" Withdrawing this amount cause balance to go below minimum balance ..So cannot withdraw")
-        else :
+        else:
             account.balance -= money
             account.save()
             return Response(" successfully Withdrawed ")
@@ -102,6 +94,13 @@ class TransactionHelperService :
             account.balance += money
             account.save()
             return Response(" successfully Deposited ")
+
+    def action(pk , account_no , money , state) :
+        if state == 'w' :
+            return TransactionHelperService.withdraw(pk , account_no , money)
+
+        if state == 'd' :
+            return TransactionHelperService.deposit(pk , account_no , money)
 
     def transfer(pk , sender_account_no , money , receivers_account_no) :
         senderaccount = Users.objects.get(pk=pk).accounts.get(account_no=sender_account_no)

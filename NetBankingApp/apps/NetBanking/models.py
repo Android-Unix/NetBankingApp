@@ -11,7 +11,7 @@ from uuid import uuid4
 
 # Create your models here.
 
-class Users(models.Model) :
+class Users(models.Model):
     id = models.UUIDField(editable = False , unique = True , primary_key = True , default=uuid.uuid4)
     First_name = models.CharField(max_length = 100)
     Last_name = models.CharField(max_length = 100)
