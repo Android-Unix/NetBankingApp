@@ -8,7 +8,7 @@ from apps.NetBanking.Service.service import (
     TransactionHelperService ,
 )
 
-from apps.NetBanking.models import Users
+from apps.NetBanking.models import Users, Account
 from apps.NetBanking.serializer import UserSerializer
 # Create your views here.
 
@@ -42,18 +42,18 @@ class AccountViewSet(viewsets.ViewSet) :
     def create_account(self , request ,pk) :
         return AccountHelperService.createAccount(pk , request.data)
 
-    def account_details(self , request , pk , account_no) :
-        return AccountHelperService.accountDetails(pk , account_no)
+    def account_details(self , request , pk , account_id) :
+        return AccountHelperService.accountDetails(pk , account_id)
 
-    def delete_account(self , request , pk , account_no) :
-        return Response(str(AccountHelperService.deleteAccount(pk , account_no)) + " Deleted Successfully")
+    def delete_account(self , request , pk , account_id) :
+        return Response(str(AccountHelperService.deleteAccount(pk , account_id)) + " Deleted Successfully")
 
-    def bankAction(self , request , pk , account_no) :
+    def bankAction(self , request , pk , account_id) :
         state = str(request.data['state'])
         money = int(request.data['money'])
 
         if state == 'w' or state == 'd' :
-            return TransactionHelperService.action(pk , account_no , money , state)
+            return TransactionHelperService.action(pk , account_id , money , state)
         else :
             return Response("Invalid action ..")
 
@@ -62,12 +62,12 @@ class TransationsViewSet(viewsets.ViewSet) :
     def list_transactions(self , request) :
         return TransactionHelperService.listTransactions()
 
-    def transferMoney(self , request , pk , account_no) :
+    def transferMoney(self , request , pk , senders_account_id) :
         money=int(request.data['money'])
         receivers_account_no = int(request.data['receivers_account_no'])
 
-        if not account_no == receivers_account_no :
-            return TransactionHelperService.transfer(pk , account_no , money , receivers_account_no)
+        if not Account.objects.get(pk=senders_account_id).account_no == receivers_account_no :
+            return TransactionHelperService.transfer(pk , senders_account_id , money , receivers_account_no)
 
         else :
             return Response(" Cannot tranfer money to same account as senders..!")

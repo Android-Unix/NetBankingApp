@@ -87,8 +87,6 @@ class AccountSerializer(serializers.ModelSerializer) :
         fields = '__all__'
 
 
-
-
     def validate_pin(self , pin) :
         if pin == "":
             raise serializers.ValidationError("Enter pin (Pin must only contain numbers) ")

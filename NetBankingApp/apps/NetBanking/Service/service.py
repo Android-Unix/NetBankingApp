@@ -55,13 +55,13 @@ class AccountHelperService :
         account = Users.objects.get(pk=user).accounts.all()
         return Response(AccountSerializer(account , many = True).data)
 
-    def accountDetails(pk , account_no) :
-        account = Users.objects.get(pk=pk).accounts.get(account_no=account_no)
+    def accountDetails(pk , account_id) :
+        account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         return Response(AccountSerializer(account).data)
 
 
-    def deleteAccount(pk , account_no) :
-        account = Users.objects.get(pk=pk).accounts.get(account_no=account_no)
+    def deleteAccount(pk , account_id) :
+        account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         accountNo = account.account_no
         account.delete()
         return accountNo
@@ -73,8 +73,8 @@ class TransactionHelperService :
         return Response({ "transactionData" : serializedTransactiondata.data})
 
 
-    def withdraw(pk , account_no , money) :
-        account = Users.objects.get(pk=pk).accounts.get(account_no=account_no)
+    def withdraw(pk , account_id , money) :
+        account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         if float(money) > account.balance:
             return Response(" Unsufficient balance ")
         elif account.balance <= 2000 :
@@ -86,8 +86,8 @@ class TransactionHelperService :
             account.save()
             return Response(" successfully Withdrawed ")
 
-    def deposit(pk , account_no , money) :
-        account = Users.objects.get(pk=pk).accounts.get(account_no=account_no)
+    def deposit(pk , account_id , money) :
+        account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         if money < 0 :
             return Response(" Money doesnt exist boss!! ")
 
@@ -96,15 +96,15 @@ class TransactionHelperService :
             account.save()
             return Response(" successfully Deposited ")
 
-    def action(pk , account_no , money , state) :
+    def action(pk , account_id , money , state) :
         if state == 'w' :
-            return TransactionHelperService.withdraw(pk , account_no , money)
+            return TransactionHelperService.withdraw(pk , account_id , money)
 
         if state == 'd' :
-            return TransactionHelperService.deposit(pk , account_no , money)
+            return TransactionHelperService.deposit(pk , account_id , money)
 
-    def transfer(pk , sender_account_no , money , receivers_account_no) :
-        senderaccount = Users.objects.get(pk=pk).accounts.get(account_no=sender_account_no)
+    def transfer(pk , sender_account_id , money , receivers_account_no) :
+        senderaccount = Users.objects.get(pk=pk).accounts.get(pk=sender_account_id)
 
         if senderaccount.balance <= 2000 :
             return Response(" Cannot transfer as balance is less than minimum balance")
