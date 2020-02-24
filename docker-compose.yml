@@ -6,7 +6,7 @@ services:
     build: ./NetBankingApp/.
 
     volumes:
-      - ~/Djangoprojects/NetBankingApp:/home/NetBankingApp/
+      - ./NetBankingApp:/home/NetBankingApp/
     ports:
       - "8000:8000"
 

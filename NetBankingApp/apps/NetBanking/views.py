@@ -4,8 +4,8 @@ from rest_framework import viewsets , generics
 from rest_framework.response import Response
 from apps.NetBanking.Service.service import (
     UserHelperService,
-    AccountHelperService ,
-    TransactionHelperService ,
+    AccountHelperService,
+    TransactionHelperService,
 )
 
 from apps.NetBanking.models import Users, Account
@@ -24,7 +24,7 @@ class UserViewSet(viewsets.ViewSet) :
         return UserHelperService.getUserDetails(pk)
 
     def delete_user(self , request , pk) :
-        return Response(UserHelperService.delete_users(pk) + " deleted successfully!")
+        return UserHelperService.delete_users(pk)
 
 class CreateUserViewSet(viewsets.ViewSet , generics.GenericAPIView) :
     queryset = Users.objects.all()
@@ -42,11 +42,11 @@ class AccountViewSet(viewsets.ViewSet) :
     def create_account(self , request ,pk) :
         return AccountHelperService.createAccount(pk , request.data)
 
-    def account_details(self , request , pk , account_id) :
-        return AccountHelperService.accountDetails(pk , account_id)
+    def account_details(self, request, pk, account_id):
+        return AccountHelperService.accountDetails(pk, account_id)
 
-    def delete_account(self , request , pk , account_id) :
-        return Response(str(AccountHelperService.deleteAccount(pk , account_id)) + " Deleted Successfully")
+    def delete_account(self, request, pk, account_id):
+        return AccountHelperService.deleteAccount(pk, account_id)
 
     def bankAction(self , request , pk , account_id) :
         state = str(request.data['state'])

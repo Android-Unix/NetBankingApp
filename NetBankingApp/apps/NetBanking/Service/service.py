@@ -1,15 +1,19 @@
 
-from apps.NetBanking.models import Users , Account , Transactions
-from apps.NetBanking.serializer import UserSerializer , AccountSerializer , TransationsSerializer
+from apps.NetBanking.models import Users, Account, Transactions
+from apps.NetBanking.serializer import (
+    UserSerializer,
+    AccountSerializer,
+    TransationsSerializer
+)
 from rest_framework.response import Response
 from apps.NetBanking.Utils.utils import accountNumberGenerater
 from django.db.models import F
 
-class UserHelperService :
+class UserHelperService:
 
-    def create_User(userdata) :
-        serialize = UserSerializer(data = userdata)
-        if serialize.is_valid() :
+    def create_User(userdata):
+        serialize = UserSerializer(data=userdata)
+        if serialize.is_valid():
             serialize.save()
             return Response(serialize.data)
         else:
@@ -19,7 +23,7 @@ class UserHelperService :
         queryset = Users.objects.all()
         return Response(UserSerializer(queryset, many=True).data)
 
-    def getUserDetails(pk) :
+    def getUserDetails(pk):
         user = Users.objects.get(pk=pk)
         return Response(UserSerializer(user).data)
 
@@ -27,46 +31,46 @@ class UserHelperService :
         user = Users.objects.get(pk=pk)
         username = user.username
         user.delete()
-        return username
+        return Response(str(username) + " deleted Successfully")
 
-class AccountHelperService :
+class AccountHelperService:
 
     def createAccount(pk , pin):
-        if Users.objects.get(pk=pk).accounts.count() < 3 :
+        if Users.objects.get(pk=pk).accounts.count() < 3:
             accountdata = {
-                "user" : Users.objects.get(pk=pk).pk ,
-                "pin" : pin['pin'] ,
-                "account_no" : accountNumberGenerater() ,
-                "balance" : 2000.00
+                "user": Users.objects.get(pk=pk).pk,
+                "pin": pin['pin'],
+                "account_no": accountNumberGenerater(),
+                "balance": 2000.00
             }
             # accountdata = Account(user_id=pk , pin=pin['pin'] , account_no = accountNumberGenerater(), balance=2000.00)
 
-            serializedaccount=AccountSerializer(data=accountdata)
-            if serializedaccount.is_valid() :
+            serializedaccount = AccountSerializer(data=accountdata)
+            if serializedaccount.is_valid():
                 serializedaccount.save()
                 return Response({"status": "Created", "data": serializedaccount.data})
-            else :
-                return Response({"error_messages:" : serializedaccount.errors})
-        else :
+            else:
+                return Response({"error_messages:": serializedaccount.errors})
+        else:
             return Response(" Cannot have more than 3 accounts ..!!")
 
 
-    def listAccount(user) :
+    def listAccount(user):
         account = Users.objects.get(pk=user).accounts.all()
-        return Response(AccountSerializer(account , many = True).data)
+        return Response(AccountSerializer(account, many=True).data)
 
-    def accountDetails(pk , account_id) :
+    def accountDetails(pk, account_id):
         account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         return Response(AccountSerializer(account).data)
 
 
-    def deleteAccount(pk , account_id) :
+    def deleteAccount(pk, account_id):
         account = Users.objects.get(pk=pk).accounts.get(pk=account_id)
         accountNo = account.account_no
         account.delete()
-        return accountNo
+        return Response(str(accountNo) + " Deleted Successfully!")
 
-class TransactionHelperService :
+class TransactionHelperService:
 
     def listTransactions() :
         serializedTransactiondata = TransationsSerializer(Transactions.objects.all() , many = True)

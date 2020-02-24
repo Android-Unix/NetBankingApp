@@ -4,19 +4,20 @@ from apps.NetBanking.models import Users , Account , Transactions
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class UserSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Users
         fields = [
-            'id' ,
-            'First_name' ,
-            'Last_name' ,
-            'username' ,
-            'DOB' ,
-            'Address' ,
-            'password' ,
+            'id',
+            'First_name',
+            'Last_name',
+            'username',
+            'DOB',
+            'Address',
+            'password',
         ]
 
 
@@ -50,11 +51,15 @@ class UserSerializer(serializers.ModelSerializer) :
         return username
 
     def validate_DOB(self, dob) :
-        today = dob.today()
+        today = datetime.now().date()
         diff = today - dob
-        age = diff.days / 365
-        if (age < 18):
-            raise serializers.ValidationError("You are no eligible to have a bank account..so cannot create user account ")
+
+        if dob > today:
+            raise serializers.ValidationError("Give date is in future...")
+        else:
+            age = diff.days / 365
+            if (age < 18):
+                raise serializers.ValidationError("You are no eligible to have a bank account..so cannot create user account ")
         return dob
 
     def validate_password(self , password) :
