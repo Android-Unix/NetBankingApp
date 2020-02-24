@@ -10,9 +10,9 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 class Users(models.Model):
-    id = models.UUIDField(editable = False , unique = True , primary_key = True , default=uuid.uuid4)
-    First_name = models.CharField(max_length = 100)
-    Last_name = models.CharField(max_length = 100)
+    id = models.UUIDField(editable=False, unique=True, primary_key=True, default=uuid.uuid4)
+    First_name = models.CharField(max_length=100)
+    Last_name = models.CharField(max_length=100)
 
     username = models.CharField(
         _('username'), max_length=30, unique=True, null=True, blank=True,
@@ -22,27 +22,27 @@ class Users(models.Model):
         ))
 
     #get age , if age is less than 18 .. dont allow to create account
-    DOB = models.DateField(null = False , blank = False)
+    DOB = models.DateField(null=False, blank=False)
     Address = models.TextField()
 
     password = models.CharField(
         _('password'), max_length=30, unique=False, null=True, blank=True,
-          help_text=_(
+        help_text=(
               'Required. 30 characters or fewer. Letters, digits and '
               'special characters'
           ))
 
-    def __str__(self) :
+    def __str__(self):
         return str(self.username)
 
-class Account(models.Model) :
+class Account(models.Model):
     account_id = models.UUIDField(
                                   primary_key=True,
                                   editable=False,
                                   unique=True,
                                   default=uuid.uuid4
                                 )
-    user = models.ForeignKey(Users , on_delete = models.CASCADE , related_name = 'accounts')
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='accounts')
 
     #using MinValueValidator and MaxValueValidator to validage account number to have 8 digits
 
@@ -51,31 +51,31 @@ class Account(models.Model) :
         validators=[
             MinValueValidator(10000000),
             MaxValueValidator(99999999)
-        ] ,
-        null=True , blank = True
+        ],
+        null=True, blank=True
     )
 
     #validating password to have special characters and upper and lower case letters and digits
     pin = models.IntegerField(
          unique=False, null=True, blank=True,
-          help_text=_(
+         help_text=_(
               'Required. 6 digits or fewer.  digits'
           ))
 
     #minimum balance is 2000
     #maximum balance allowed is 999999
 
-    balance = models.DecimalField(decimal_places=2 , max_digits=15)
+    balance = models.DecimalField(decimal_places=2, max_digits=15)
 
-    def __str__(self) :
-          return str(self.account_no) + " balance : " + str(self.balance)
+    def __str__(self):
+        return str(self.account_no) + " balance: " + str(self.balance)
 
-class Transactions(models.Model) :
-    senders = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'senderacc')
-    receivers = models.ForeignKey(Account , null=True , blank=True , on_delete = models.CASCADE , related_name = 'receiveracc')
-    moneysent = models.DecimalField(default = 2000 , decimal_places = 2 , max_digits = 12)
-    reason = models.TextField(blank = True , null = True)
+class Transactions(models.Model):
+    senders = models.ForeignKey(Account, null=True, blank=True, on_delete=models.CASCADE, related_name='senderacc')
+    receivers = models.ForeignKey(Account , null=True, blank=True, on_delete=models.CASCADE, related_name='receiveracc')
+    moneysent = models.DecimalField(default=2000, decimal_places=2, max_digits=12)
+    reason = models.TextField(blank=True, null=True)
 
 
-    def __str__(self) :
-        return   str(self.senders.account_no) +  " sent " + str(self.moneysent) + " to " + str(self.receivers.account_no)
+    def __str__(self):
+        return str(self.senders.account_no) + " sent " + str(self.moneysent) + " to " + str(self.receivers.account_no)

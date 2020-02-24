@@ -1,13 +1,13 @@
 import re
 from rest_framework import serializers
-from apps.NetBanking.models import Users , Account , Transactions
+from apps.NetBanking.models import Users, Account, Transactions
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from datetime import datetime
 
 
-class UserSerializer(serializers.ModelSerializer) :
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = [
@@ -21,23 +21,23 @@ class UserSerializer(serializers.ModelSerializer) :
         ]
 
 
-    def validate_First_name(self , firstname) :
-        if  firstname == "" :
+    def validate_First_name(self , firstname):
+        if  firstname == "":
             raise serializers.ValidationError("First name needed..please enter correct first name ")
 
         return firstname
 
-    def validate_Last_name(self , lastname) :
-        if lastname == "" :
+    def validate_Last_name(self , lastname):
+        if lastname == "":
             raise serializers.ValidationError("Last name needed..please enter correct last name ")
 
         return lastname
 
-    def validate_username(self , username) :
-        if username == "" :
-            raise serializers.ValidationError(" Unique Username needed boss.. ")
+    def validate_username(self , username):
+        if username == "":
+            raise serializers.ValidationError(" Unique Username needed boss..")
 
-        else :
+        else:
             validators=[
                 RegexValidator(
                     r'^[\w.@+-]+$',
@@ -50,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer) :
             }
         return username
 
-    def validate_DOB(self, dob) :
+    def validate_DOB(self, dob):
         today = datetime.now().date()
         diff = today - dob
 
@@ -62,12 +62,12 @@ class UserSerializer(serializers.ModelSerializer) :
                 raise serializers.ValidationError("You are no eligible to have a bank account..so cannot create user account ")
         return dob
 
-    def validate_password(self , password) :
+    def validate_password(self , password):
         if password == "":
             raise serializers.ValidationError("Enter password ")
 
-        else :
-            if (len(password)<8):
+        else:
+            if (len(password) < 8):
                 raise serializers.ValidationError("Password length must be minimum 8 characters")
 
             elif not re.search("[a-z]", password):
@@ -85,18 +85,18 @@ class UserSerializer(serializers.ModelSerializer) :
         return password
 
 
-class AccountSerializer(serializers.ModelSerializer) :
+class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
         fields = '__all__'
 
 
-    def validate_pin(self , pin) :
+    def validate_pin(self , pin):
         if pin == "":
             raise serializers.ValidationError("Enter pin (Pin must only contain numbers) ")
 
-        else :
+        else:
             if int(len(str(pin))) <= 4:
                 raise serializers.ValidationError("Pin length must be minimum 4 digits")
 
@@ -119,8 +119,8 @@ class TransationsSerializer(serializers.ModelSerializer) :
     class Meta:
         model = Transactions
         fields = [
-                'senders' ,
-                'receivers' ,
-                'moneysent' ,
+                'senders',
+                'receivers',
+                'moneysent',
                 ]
         depth = 1

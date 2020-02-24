@@ -1,4 +1,4 @@
 from random import randint
 
-def accountNumberGenerater() :
-    return randint(10000000 , 99999999)
+def accountNumberGenerater():
+    return randint(10000000, 99999999)
