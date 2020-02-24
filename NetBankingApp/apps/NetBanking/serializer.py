@@ -84,12 +84,9 @@ class AccountSerializer(serializers.ModelSerializer) :
 
     class Meta:
         model = Account
-        fields = [
-            'user' ,
-            'account_no' ,
-            'pin' ,
-            'balance' ,
-        ]
+        fields = '__all__'
+
+
 
 
     def validate_pin(self , pin) :

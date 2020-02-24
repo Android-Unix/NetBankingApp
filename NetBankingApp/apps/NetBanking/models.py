@@ -38,6 +38,7 @@ class Users(models.Model):
         return str(self.username)
 
 class Account(models.Model) :
+    account_id = models.UUIDField(primary_key=True, editable=False, unique=True, default=uuid.uuid4)
     user = models.ForeignKey(Users , on_delete = models.CASCADE , related_name = 'accounts')
 
     #using MinValueValidator and MaxValueValidator to validage account number to have 8 digits

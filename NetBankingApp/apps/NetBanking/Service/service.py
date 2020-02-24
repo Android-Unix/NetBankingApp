@@ -3,6 +3,7 @@ from apps.NetBanking.models import Users , Account , Transactions
 from apps.NetBanking.serializer import UserSerializer , AccountSerializer , TransationsSerializer
 from rest_framework.response import Response
 from apps.NetBanking.Utils.utils import accountNumberGenerater
+from django.db.models import F
 
 class UserHelperService :
 
@@ -81,7 +82,7 @@ class TransactionHelperService :
         elif account.balance - money <= 2000 :
             return Response(" Withdrawing this amount cause balance to go below minimum balance ..So cannot withdraw")
         else:
-            account.balance -= money
+            account.balance = F('balance') - money
             account.save()
             return Response(" successfully Withdrawed ")
 
@@ -91,7 +92,7 @@ class TransactionHelperService :
             return Response(" Money doesnt exist boss!! ")
 
         else:
-            account.balance += money
+            account.balance = F('balance') + money
             account.save()
             return Response(" successfully Deposited ")
 
