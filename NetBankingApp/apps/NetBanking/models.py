@@ -72,10 +72,19 @@ class Account(models.Model):
 
 class Transactions(models.Model):
     senders = models.ForeignKey(Account, null=True, blank=True, on_delete=models.CASCADE, related_name='senderacc')
-    receivers = models.ForeignKey(Account , null=True, blank=True, on_delete=models.CASCADE, related_name='receiveracc')
+    receivers = models.ForeignKey(Account, null=True, blank=True, on_delete=models.CASCADE, related_name='receiveracc')
     moneysent = models.DecimalField(default=2000, decimal_places=2, max_digits=12)
     reason = models.TextField(blank=True, null=True)
 
 
     def __str__(self):
         return str(self.senders.account_no) + " sent " + str(self.moneysent) + " to " + str(self.receivers.account_no)
+
+class AccountTransaction(models.Model):
+    transactedtime = models.DateTimeField(auto_now_add=True)
+    active_account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    moneydeposited = models.DecimalField(decimal_places=2, max_digits=12, null=True, blank=True)
+    moneywithdrawed = models.DecimalField(decimal_places=2, max_digits=12, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.active_account) + "MoneyDeposited: " + str(self.moneydeposited) + "MoneyWithdrawed: " + str(self.moneywithdrawed) 

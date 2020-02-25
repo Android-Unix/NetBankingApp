@@ -49,7 +49,7 @@ class AccountViewSet(viewsets.ViewSet):
         return AccountHelperService.deleteAccount(pk, account_id)
 
     def bankAction(self, request, pk, account_id):
-        state = str(request.data['state'])
+        state = str(request.data['action'])
         money = int(request.data['money'])
 
         if state == 'w' or state == 'd':
@@ -71,3 +71,6 @@ class TransationsViewSet(viewsets.ViewSet):
 
         else :
             return Response(" Cannot tranfer money to same account as senders..!")
+
+    def account_activity(self , request , pk , account_id):
+        return TransactionHelperService.list_account_activity(pk , account_id)

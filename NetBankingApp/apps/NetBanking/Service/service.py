@@ -1,13 +1,15 @@
 
-from apps.NetBanking.models import Users, Account, Transactions
+from apps.NetBanking.models import Users, Account, Transactions , AccountTransaction
 from apps.NetBanking.serializer import (
     UserSerializer,
     AccountSerializer,
-    TransationsSerializer
+    TransationsSerializer,
+    AccountTransactionSerializer,
 )
 from rest_framework.response import Response
 from apps.NetBanking.Utils.utils import accountNumberGenerater
 from django.db.models import F
+from datetime import datetime
 
 class UserHelperService:
 
@@ -85,9 +87,26 @@ class TransactionHelperService:
         elif account.balance - money <= 2000:
             return Response(" Withdrawing this amount cause balance to go below minimum balance ..So cannot withdraw")
         else:
+
+            data = {
+                "moneywithdrawed": money,
+                "active_account": account.pk
+            }
+
             account.balance = F('balance') - money
             account.save()
-            return Response(" successfully Withdrawed ")
+
+            serializedata = AccountTransactionSerializer(data=data)
+            if serializedata.is_valid():
+                log_file = open("log.txt", "a+")
+                log_file.write(str(serializedata.validated_data))
+                log_file.write("\n")
+                log_file.close()
+                serializedata.save()
+                return Response(serializedata.data)
+            else:
+                return Response(serializedata.errors)
+
 
     def deposit(pk, account_id, money):
         account = Account.objects.get(pk=account_id)
@@ -95,9 +114,23 @@ class TransactionHelperService:
             return Response(" Money doesnt exist boss!! ")
 
         else:
+            data = {
+                "moneydeposited": money,
+                "active_account": account.pk
+            }
             account.balance = F('balance') + money
             account.save()
-            return Response(" successfully Deposited ")
+
+            serializedata = AccountTransactionSerializer(data=data)
+            if serializedata.is_valid():
+                log_file = open("log.txt", "a+")
+                log_file.write(str(serializedata.validated_data))
+                log_file.write("\n")
+                log_file.close()
+                serializedata.save()
+                return Response(serializedata.data)
+            else:
+                return Response(serializedata.errors)
 
     def action(pk, account_id, money, state):
         if state == 'w':
@@ -119,12 +152,22 @@ class TransactionHelperService:
             except (KeyError, Account.DoesNotExist):
                 return Response(" Invalid Account Number")
 
-            senderaccount.balance -= money
+            senderaccount.balance = F('balance') - money
             senderaccount.save()
 
-            receiveraccount.balance += money
+            receiveraccount.balance = F('balance') + money
             receiveraccount.save()
 
             tobj = Transactions.objects.create(senders=senderaccount, receivers=receiveraccount, moneysent=money)
             Response(TransationsSerializer(tobj, many=True))
             return Response(" Money sent successfully ")
+
+    def list_account_activity(pk , account_id):
+        accountactivity = AccountTransaction.objects.filter(active_account=account_id)
+        log_file = open("log.txt", "a+")
+        log_file.write(str(accountactivity))
+        log_file.write("\n")
+        log_file.write(str(AccountTransactionSerializer(accountactivity, many=True).data))
+        log_file.write("\n")
+        log_file.close()
+        return Response(AccountTransactionSerializer(accountactivity, many=True).data)

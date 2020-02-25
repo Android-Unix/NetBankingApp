@@ -1,6 +1,6 @@
 import re
 from rest_framework import serializers
-from apps.NetBanking.models import Users, Account, Transactions
+from apps.NetBanking.models import Users, Account, Transactions , AccountTransaction
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
@@ -115,7 +115,7 @@ class AccountSerializer(serializers.ModelSerializer):
         return instance
 
 
-class TransationsSerializer(serializers.ModelSerializer) :
+class TransationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transactions
         fields = [
@@ -124,3 +124,9 @@ class TransationsSerializer(serializers.ModelSerializer) :
                 'moneysent',
                 ]
         depth = 1
+
+
+class AccountTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountTransaction
+        fields = '__all__'

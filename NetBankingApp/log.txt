@@ -1,0 +1,7 @@
+<QuerySet [<AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 1.00>, <AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 100.00>]>
+[OrderedDict(), OrderedDict()]
+<QuerySet [<AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 1.00>, <AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 100.00>]>
+<QuerySet [<AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 1.00>, <AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 100.00>]>
+[OrderedDict([('id', 1), ('transactedtime', '2020-02-25T03:37:56.400214Z'), ('moneydeposited', None), ('moneywithdrawed', '1.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))]), OrderedDict([('id', 2), ('transactedtime', '2020-02-25T03:44:13.347179Z'), ('moneydeposited', None), ('moneywithdrawed', '100.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))])]
+<QuerySet []>
+[]
