@@ -129,4 +129,10 @@ class TransationsSerializer(serializers.ModelSerializer):
 class AccountTransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountTransaction
-        fields = '__all__'
+        fields = [
+            'transactedtime',
+            'moneydeposited',
+            'moneywithdrawed',
+            'active_account'
+
+        ]

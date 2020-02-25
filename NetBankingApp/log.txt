@@ -5,3 +5,15 @@
 [OrderedDict([('id', 1), ('transactedtime', '2020-02-25T03:37:56.400214Z'), ('moneydeposited', None), ('moneywithdrawed', '1.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))]), OrderedDict([('id', 2), ('transactedtime', '2020-02-25T03:44:13.347179Z'), ('moneydeposited', None), ('moneywithdrawed', '100.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))])]
 <QuerySet []>
 []
+<QuerySet []>
+[]
+<QuerySet [<AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 1.00>, <AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 100.00>]>
+[OrderedDict([('id', 1), ('transactedtime', '2020-02-25T03:37:56.400214Z'), ('moneydeposited', None), ('moneywithdrawed', '1.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))]), OrderedDict([('id', 2), ('transactedtime', '2020-02-25T03:44:13.347179Z'), ('moneydeposited', None), ('moneywithdrawed', '100.00'), ('active_account', UUID('6db08ba6-3793-4a45-97bd-227eaab7b867'))])]
+<QuerySet [<AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 1.00>, <AccountTransaction: 91999406 balance: 3048.00MoneyDeposited: NoneMoneyWithdrawed: 100.00>]>
+[OrderedDict([('id', 1), ('transactedtime', '2020-02-25T03:37:56.400214Z'), ('moneydeposited', None), ('moneywithdrawed', '1.00'), ('active_account', OrderedDict([('account_id', '6db08ba6-3793-4a45-97bd-227eaab7b867'), ('account_no', 91999406), ('pin', 123321), ('balance', '3048.00'), ('user', UUID('3f3fb2d9-fa7e-4ef5-8bd9-5c6425087e5b'))]))]), OrderedDict([('id', 2), ('transactedtime', '2020-02-25T03:44:13.347179Z'), ('moneydeposited', None), ('moneywithdrawed', '100.00'), ('active_account', OrderedDict([('account_id', '6db08ba6-3793-4a45-97bd-227eaab7b867'), ('account_no', 91999406), ('pin', 123321), ('balance', '3048.00'), ('user', UUID('3f3fb2d9-fa7e-4ef5-8bd9-5c6425087e5b'))]))])]
+OrderedDict([('moneydeposited', Decimal('100.00'))])
+OrderedDict([('moneywithdrawed', Decimal('90.00')), ('active_account', <Account: 95476762 balance: 2010.00>)])
+<QuerySet [<AccountTransaction: 95476762 balance: 2010.00MoneyDeposited: NoneMoneyWithdrawed: 90.00>]>
+[OrderedDict([('id', 3), ('transactedtime', '2020-02-25T04:34:41.570186Z'), ('moneydeposited', None), ('moneywithdrawed', '90.00'), ('active_account', UUID('e5c36bc5-6883-47ad-88ff-a25e650f9e6f'))])]
+<QuerySet [<AccountTransaction: 95476762 balance: 2010.00MoneyDeposited: NoneMoneyWithdrawed: 90.00>]>
+[OrderedDict([('transactedtime', '2020-02-25T04:34:41.570186Z'), ('moneydeposited', None), ('moneywithdrawed', '90.00'), ('active_account', UUID('e5c36bc5-6883-47ad-88ff-a25e650f9e6f'))])]
